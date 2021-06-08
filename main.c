@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/08 12:04:20 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/08 12:36:52 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	process_args(char *argv[], t_table **table)
 		Do the classic argument parsing.
 		Store the arguments in a struct
 	*/
-
 	(*table)->num_philos = ft_atoi(argv[1]);
+	(*table)->to_die = ft_atoi(argv[2]);
+	(*table)->to_eat = ft_atoi(argv[3]);
+	(*table)->to_rest = ft_atoi(argv[4]);
 	printf("Number of philosophers: %d\n",(*table)->num_philos);
 	(*table)->philosopher = 0;
 }
@@ -46,16 +48,19 @@ void	init_philos(t_table **table)
 	*/
 	t_table	*structure;
 	t_table	*result;
-	structure = *table;
 	int i;
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
-	pthread_mutex_init(&(*table)->lock, NULL);
+	pthread_mutex_t	fork_temp[(*table)->num_philos];
 
 	printf("The philosopher value here is %d\n",structure->philosopher);
+
+	(*table)->chopstick = stick_temp;
+	structure = *table;
 	i = 0;
 	while (i < (*table)->num_philos)
 	{
+		pthread_mutex_init(&(*table)->fork[i], NULL);
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)structure);
 		i++;
 	}
@@ -64,9 +69,9 @@ void	init_philos(t_table **table)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
 		printf("Thread %d rejoined\n", i);
+		pthread_mutex_destroy(&(*table)->fork[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&(*table)->lock);
 }
 
 int	main(int argc, char *argv[])
