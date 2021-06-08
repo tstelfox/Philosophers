@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/07 13:44:29 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/08 11:56:45 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef	struct	s_table
 {
 	int	philosopher;
 	int	num_philos;
+	pthread_mutex_t	lock;
 	// int	to_die;
 	// int	to_eat;
 	// int	to_rest;

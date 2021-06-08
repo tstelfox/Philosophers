@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/07 16:58:51 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/08 12:04:20 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ void	*thread_func(void *arg)
 {
 	t_table	*table = (t_table *)arg;
 
-	printf("Thread %d started\n", table->philosopher);
+	pthread_mutex_lock(&table->lock);
+	// printf("Thread %d started\n", table->philosopher);
 	table->philosopher++;
+	if (table->philosopher == 4)
+		printf("YATZEE\n");
 	printf("This is philosopher no. %d\n", table->philosopher);
-	
+	pthread_mutex_unlock(&table->lock);
+
 	return (NULL);
 }
 
@@ -46,6 +50,7 @@ void	init_philos(t_table **table)
 	int i;
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
+	pthread_mutex_init(&(*table)->lock, NULL);
 
 	printf("The philosopher value here is %d\n",structure->philosopher);
 	i = 0;
@@ -61,6 +66,7 @@ void	init_philos(t_table **table)
 		printf("Thread %d rejoined\n", i);
 		i++;
 	}
+	pthread_mutex_destroy(&(*table)->lock);
 }
 
 int	main(int argc, char *argv[])
