@@ -6,11 +6,27 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/08 12:36:52 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/22 17:04:57 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	init_philos(t_table **table, int num_philos)
+{
+	t_philo	philosophers[num_philos];
+	int i;
+
+	i = 0;
+	while (i < num_philos)
+	{
+		philosophers[i].left = false;
+		philosophers[i].right = false;
+		philosophers[i].philosopher = i + 1;
+		i++;
+	}
+	(*table)->philo = philosophers;
+}
 
 void	process_args(char *argv[], t_table **table)
 {
@@ -19,29 +35,46 @@ void	process_args(char *argv[], t_table **table)
 		Store the arguments in a struct
 	*/
 	(*table)->num_philos = ft_atoi(argv[1]);
-	(*table)->to_die = ft_atoi(argv[2]);
-	(*table)->to_eat = ft_atoi(argv[3]);
-	(*table)->to_rest = ft_atoi(argv[4]);
+	init_philos(table, (*table)->num_philos);
+	// printf("Philosopher number three: |%d|\n", (*table)->philo[2].philosopher);
+	// (*table)->to_die = ft_atoi(argv[2]);
+	// (*table)->to_eat = ft_atoi(argv[3]);
+	// (*table)->to_rest = ft_atoi(argv[4]);
 	printf("Number of philosophers: %d\n",(*table)->num_philos);
-	(*table)->philosopher = 0;
+	(*table)->philosopher = 1;
 }
 
 void	*thread_func(void *arg)
 {
 	t_table	*table = (t_table *)arg;
+	int	left = table->philosopher - 1;
+	int right = table->philosopher;
 
-	pthread_mutex_lock(&table->lock);
-	// printf("Thread %d started\n", table->philosopher);
+	if (table->philosopher == table->num_philos)
+		right = 0;
 	table->philosopher++;
-	if (table->philosopher == 4)
-		printf("YATZEE\n");
-	printf("This is philosopher no. %d\n", table->philosopher);
-	pthread_mutex_unlock(&table->lock);
+	// printf("philosopher number: |%d|\n", table->philosopher);
+	pthread_mutex_lock(&table->ch_stick[left]);
+	table->philo[table->philosopher].left = true;
+	if (table->philo[table->philosopher].left == true)
+		printf("Philosopher no. %d picked up the left chopstick\n", table->philo[table->philosopher].philosopher);
+	table->philo[table->philosopher].left = false;
+	if (table->philo[table->philosopher].left == false)
+		printf("Philosopher no. %d dropped the left chopstick\n", table->philo[table->philosopher].philosopher);
+	pthread_mutex_unlock(&table->ch_stick[left]);
+	pthread_mutex_lock(&table->ch_stick[right]);
+	table->philo[table->philosopher].right = true;
+	if (table->philo[table->philosopher].right == true)
+		printf("Philosopher no. %d picked up the right chopstick\n", table->philo[table->philosopher].philosopher);
+	table->philo[table->philosopher].right = false;
+	if (table->philo[table->philosopher].right == false)
+		printf("Philosopher no. %d dropped the right chopstick\n", table->philo[table->philosopher].philosopher);
+	pthread_mutex_unlock(&table->ch_stick[right]);
 
 	return (NULL);
 }
 
-void	init_philos(t_table **table)
+void	init_threads(t_table **table)
 {
 	/*
 	pthread_t	philosopher[num_phil];
@@ -51,16 +84,16 @@ void	init_philos(t_table **table)
 	int i;
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
-	pthread_mutex_t	fork_temp[(*table)->num_philos];
+	pthread_mutex_t	stick_temp[(*table)->num_philos];
 
+	structure = *table;
 	printf("The philosopher value here is %d\n",structure->philosopher);
 
-	(*table)->chopstick = stick_temp;
-	structure = *table;
+	(*table)->ch_stick = stick_temp;
 	i = 0;
 	while (i < (*table)->num_philos)
 	{
-		pthread_mutex_init(&(*table)->fork[i], NULL);
+		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)structure);
 		i++;
 	}
@@ -69,7 +102,7 @@ void	init_philos(t_table **table)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
 		printf("Thread %d rejoined\n", i);
-		pthread_mutex_destroy(&(*table)->fork[i]);
+		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;
 	}
 }
@@ -83,7 +116,7 @@ int	main(int argc, char *argv[])
 	{
 		process_args(argv, &table);
 		// ft_putstr_fd("heya\n", 1);
-		init_philos(&table);
+		init_threads(&table);
 	}
 	else
 	{
