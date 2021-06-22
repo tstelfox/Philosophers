@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/22 16:50:55 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/22 19:04:48 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,27 @@ enum	states
 	SLEEPING
 };
 
+typedef	struct	s_table
+{
+	int	num_philos;
+	pthread_mutex_t	*ch_stick;
+	int	to_die;
+	int	to_eat;
+	int	to_rest;
+	// int	rounds;
+	/* data */
+}				t_table;
+
 typedef	struct	s_philo
 {
 	// pthread_mutex_t	lock;
 	int	philosopher;
 	bool	left;
 	bool	right;
+	struct s_table	*table;
 	/* data */
 }				t_philo;
 
-typedef	struct	s_table
-{
-	int	philosopher;
-	int	num_philos;
-	pthread_mutex_t	*ch_stick;
-	int	to_die;
-	int	to_eat;
-	int	to_rest;
-	struct s_philo	*philo;
-	// int	rounds;
-	/* data */
-}				t_table;
 
 
 #endif
