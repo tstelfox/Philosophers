@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 19:20:23 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/24 19:23:20 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ void	*thread_func(void *arg)
 	pthread_mutex_lock(&philo->table->ch_stick[right]);
 	philo[philo->philosopher].left = true;
 	philo[philo->philosopher].right = true;
-	// philo->state = EATING;
 	printf("Philosopher |%d| starts eating\n", philo->philosopher);
 	usleep(philo->table->to_eat);
 	printf("Philosopher |%d| has finished eating\n", philo->philosopher);
 	philo[philo->philosopher].left = false;
 	philo[philo->philosopher].right = false;
-	// philo->state = THINKING;
 	pthread_mutex_unlock(&philo->table->ch_stick[left]);
 	pthread_mutex_unlock(&philo->table->ch_stick[right]);
 
@@ -88,9 +86,6 @@ void	*thread_func(void *arg)
 
 void	init_threads(t_philo **philo, t_table **table)
 {
-	/*
-	pthread_t	philosopher[num_phil];
-	*/
 	t_philo	*structure;
 	t_philo	*result;
 	int i;
