@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 19:20:19 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/24 21:42:51 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 void		ft_putstr_fd(char *s, int fd);
 size_t		ft_strlen(const char *s);
 int			ft_atoi(const char *str);
+void		ft_bzero(void *s, size_t n);
 
 enum	states
 {
@@ -42,8 +43,8 @@ typedef	struct	s_table
 
 typedef	struct	s_philo
 {
+	int	state;
 	int	philosopher;
-	// int	state;
 	bool	left;
 	bool	right;
 	struct s_table	*table;

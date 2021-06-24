@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 19:23:20 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/24 21:42:47 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ t_philo	**init_philos(t_table **table, int num_philos)
 	t_philo	**philosophers;
 	int i;
 
-	philosophers = malloc(sizeof(t_philo *) * num_philos);
+	philosophers = malloc(sizeof(t_philo *) * (num_philos + 1));
 	philosophers[num_philos] = NULL;
 	i = 0;
 	// printf("IS THINKING |%d| NOT WHAT I THINK IT IS?\n", THINKING);
-	// printf("IS EATING |%d| NOT WHAT I THINK IT IS?\n", EATING);
+	printf("What size is it? |%lu|?\n", sizeof(t_philo));
+
 	while (i < num_philos)
 	{
 		philosophers[i] = malloc(sizeof(t_philo));
+		// ft_bzero(philosophers[i], sizeof(t_philo));
+		philosophers[i]->state = THINKING;
+		philosophers[i]->philosopher = i + 1;
 		philosophers[i]->left = false;
 		philosophers[i]->right = false;
-		philosophers[i]->philosopher = i + 1;
-		// philosophers[i]->state = THINKING;
 		philosophers[i]->table = *table;
 		// printf("Number of philosophers: %d\n", philosophers[i]->table->num_philos);
 		i++;
@@ -49,6 +51,8 @@ t_philo	**process_args(char *argv[], t_table **table)
 	(*table)->to_think = ft_atoi(argv[4]);
 	printf("Number of philosophers: %d\n",(*table)->num_philos);
 	philos = init_philos(table, (*table)->num_philos);
+	// for (int i = 0; i < (*table)->num_philos; i++)
+	// 	printf("Well it is |%d|\n", philos[0]->state);
 	return (philos);
 }
 
