@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/06/07 13:43:25 by tmullan       ########   odam.nl          #
+#    Updated: 2021/06/24 18:38:00 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
+	 # -fsanitize=thread
 
 %.o: %.c
-	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ 
 
 clean:
 	rm -f $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 17:59:46 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/24 19:20:19 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int			ft_atoi(const char *str);
 
 enum	states
 {
-	EATING,
-	THINKING
+	THINKING = 0,
+	EATING = 1
 };
 
 typedef	struct	s_table
@@ -35,16 +35,15 @@ typedef	struct	s_table
 	pthread_mutex_t	*ch_stick;
 	unsigned int	to_die;
 	unsigned int	to_eat;
-	unsigned int	to_rest;
+	unsigned int	to_think;
 	// int	rounds;
 	/* data */
 }				t_table;
 
 typedef	struct	s_philo
 {
-	// pthread_mutex_t	lock;
 	int	philosopher;
-	int	state;
+	// int	state;
 	bool	left;
 	bool	right;
 	struct s_table	*table;

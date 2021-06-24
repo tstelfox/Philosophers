@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 18:17:04 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/24 19:20:23 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ t_philo	**init_philos(t_table **table, int num_philos)
 	philosophers = malloc(sizeof(t_philo *) * num_philos);
 	philosophers[num_philos] = NULL;
 	i = 0;
+	// printf("IS THINKING |%d| NOT WHAT I THINK IT IS?\n", THINKING);
+	// printf("IS EATING |%d| NOT WHAT I THINK IT IS?\n", EATING);
 	while (i < num_philos)
 	{
 		philosophers[i] = malloc(sizeof(t_philo));
 		philosophers[i]->left = false;
 		philosophers[i]->right = false;
 		philosophers[i]->philosopher = i + 1;
-		philosophers[i]->state = THINKING;
+		// philosophers[i]->state = THINKING;
 		philosophers[i]->table = *table;
 		// printf("Number of philosophers: %d\n", philosophers[i]->table->num_philos);
 		i++;
@@ -42,9 +44,9 @@ t_philo	**process_args(char *argv[], t_table **table)
 		Store the arguments in a struct
 	*/
 	(*table)->num_philos = ft_atoi(argv[1]);
-	// (*table)->to_die = ft_atoi(argv[2]);
-	(*table)->to_eat = ft_atoi(argv[2]);
-	// (*table)->to_rest = ft_atoi(argv[4]);
+	(*table)->to_die = ft_atoi(argv[2]);
+	(*table)->to_eat = ft_atoi(argv[3]);
+	(*table)->to_think = ft_atoi(argv[4]);
 	printf("Number of philosophers: %d\n",(*table)->num_philos);
 	philos = init_philos(table, (*table)->num_philos);
 	return (philos);
@@ -55,33 +57,29 @@ void	*thread_func(void *arg)
 	t_philo	*philo = (t_philo *)arg;
 	int	left = philo->philosopher - 1;
 	int right = philo->philosopher;
+	// int	locked = 0;
 
-	if (philo->philosopher == 2)
-		printf("Time to eat: %d\n", philo->table->to_eat);
+	// if (philo->philosopher == 1)
+	// {
+		// printf("Must find the culprit\n");
+	// printf("Time to eat: %d\n", philo->table->to_eat);
 	if (philo->philosopher == philo->table->num_philos)
 		right = 0;
-	printf("philosopher number: |%d|\n", philo->philosopher);
-	if (philo[philo->philosopher].left || philo[philo->philosopher].right)
-		printf("Philosopher |%d| can't start eating yet\n", philo->philosopher);
+	// printf("philosopher number: |%d|\n", philo->philosopher);
+	// // }
+	// if (philo->state != EATING)
+	// 	usleep(philo->table->to_think);
 	pthread_mutex_lock(&philo->table->ch_stick[left]);
 	pthread_mutex_lock(&philo->table->ch_stick[right]);
 	philo[philo->philosopher].left = true;
 	philo[philo->philosopher].right = true;
+	// philo->state = EATING;
 	printf("Philosopher |%d| starts eating\n", philo->philosopher);
-	// usleep(philo->table->to_eat);
+	usleep(philo->table->to_eat);
 	printf("Philosopher |%d| has finished eating\n", philo->philosopher);
-	philo[philo->philosopher].right = false;
 	philo[philo->philosopher].left = false;
-	// if (philo[philo->philosopher].left == true)
-	// 	printf("Philosopher no. %d picked up the left chopstick\n", philo->philosopher);
-	// philo[philo->philosopher].left = false;
-	// if (philo[philo->philosopher].left == false)
-	// 	printf("Philosopher no. %d dropped the left chopstick\n", philo->philosopher);
-	// if (philo[philo->philosopher].right == true)
-	// 	printf("Philosopher no. %d picked up the right chopstick\n", philo->philosopher);
-	// philo[philo->philosopher].right = false;
-	// if (philo[philo->philosopher].right == false)
-	// 	printf("Philosopher no. %d dropped the right chopstick\n", philo->philosopher);
+	philo[philo->philosopher].right = false;
+	// philo->state = THINKING;
 	pthread_mutex_unlock(&philo->table->ch_stick[left]);
 	pthread_mutex_unlock(&philo->table->ch_stick[right]);
 
