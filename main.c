@@ -6,41 +6,41 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/24 21:42:47 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/06/25 17:59:54 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	**init_philos(t_table **table, int num_philos)
+t_philo	*init_philos(t_table **table, int num_philos)
 {
-	t_philo	**philosophers;
+	t_philo	*philosophers;
 	int i;
 
-	philosophers = malloc(sizeof(t_philo *) * (num_philos + 1));
-	philosophers[num_philos] = NULL;
+	philosophers = malloc(sizeof(t_philo) * (num_philos));
+	// philosophers[num_philos] = NULL;
 	i = 0;
 	// printf("IS THINKING |%d| NOT WHAT I THINK IT IS?\n", THINKING);
 	printf("What size is it? |%lu|?\n", sizeof(t_philo));
 
 	while (i < num_philos)
 	{
-		philosophers[i] = malloc(sizeof(t_philo));
+		// philosophers[i] = malloc(sizeof(t_philo));
 		// ft_bzero(philosophers[i], sizeof(t_philo));
-		philosophers[i]->state = THINKING;
-		philosophers[i]->philosopher = i + 1;
-		philosophers[i]->left = false;
-		philosophers[i]->right = false;
-		philosophers[i]->table = *table;
+		philosophers[i].state = THINKING;
+		philosophers[i].philosopher = i + 1;
+		philosophers[i].left = false;
+		philosophers[i].right = false;
+		philosophers[i].table = *table;
 		// printf("Number of philosophers: %d\n", philosophers[i]->table->num_philos);
 		i++;
 	}
 	return(philosophers);
 }
 
-t_philo	**process_args(char *argv[], t_table **table)
+t_philo	*process_args(char *argv[], t_table **table)
 {
-	t_philo **philos;
+	t_philo *philos;
 	/*
 		Do the classic argument parsing.
 		Store the arguments in a struct
@@ -98,7 +98,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
 
 	structure = *philo;
-	printf("The philosopher value here is %d\n",structure->philosopher);
+	// printf("The philosopher value here is %d\n",structure[0]->philosopher);
 
 	(*table)->ch_stick = stick_temp;
 	i = 0;
@@ -121,14 +121,14 @@ void	init_threads(t_philo **philo, t_table **table)
 int	main(int argc, char *argv[])
 {
 	t_table	*table;
-	t_philo **philo;
+	t_philo *philo;
 
 	table = malloc(sizeof(t_table));
 	if (argc == 5 || argc == 6 || argc == 3)
 	{
 		philo = process_args(argv, &table);
 		// ft_putstr_fd("heya\n", 1);
-		init_threads(philo, &table);
+		init_threads(&philo, &table);
 	}
 	else
 	{

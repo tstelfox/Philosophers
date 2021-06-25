@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/06/24 21:38:45 by tmullan       ########   odam.nl          #
+#    Updated: 2021/06/25 17:55:20 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME) -fsanitize=thread
+	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME) -fsanitize=thread -g
 
 %.o: %.c
-	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ -fsanitize=thread
+	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ -fsanitize=thread -g
 
 clean:
 	rm -f $(OBJ)
