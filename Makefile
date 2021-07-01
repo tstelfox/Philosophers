@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/06/25 17:55:20 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/01 16:58:35 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ UTILS = utils/ft_putstr_fd.o \
 		utils/ft_bzero.o
 
 OBJ = main.o \
+		threads.o \
 		$(UTILS)
 
 FLAGS = -Wall -Wextra -Werror

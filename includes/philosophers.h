@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/25 17:59:50 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/01 16:58:24 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <sys/time.h>
 
 // Utils
 void		ft_putstr_fd(char *s, int fd);
 size_t		ft_strlen(const char *s);
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
+void		*thread_func(void *);
 
 enum	states
 {
@@ -34,9 +36,11 @@ typedef	struct	s_table
 {
 	int	num_philos;
 	pthread_mutex_t	*ch_stick;
+	struct timeval current_time;
 	unsigned int	to_die;
 	unsigned int	to_eat;
 	unsigned int	to_think;
+	unsigned int	start_time;
 	// int	rounds;
 	/* data */
 }				t_table;

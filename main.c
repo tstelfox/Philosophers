@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/30 17:37:01 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/01 16:57:50 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_philo	*process_args(char *argv[], t_table **table)
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
 	(*table)->to_think = ft_atoi(argv[4]);
+	(*table)->start_time = 0;
 	// printf("Number of philosophers: %d\n",(*table)->num_philos);
 	philos = init_philos(table, (*table)->num_philos);
 	// for (int i = 0; i < (*table)->num_philos; i++)
@@ -56,38 +57,41 @@ t_philo	*process_args(char *argv[], t_table **table)
 	return (philos);
 }
 
-void	*thread_func(void *arg)
-{
-	t_philo	*philo = (t_philo *)arg;
-	int	left = philo->philosopher - 1;
-	int right = philo->philosopher;
+// void	*thread_func(void *arg)
+// {
+// 	t_philo	*philo = (t_philo *)arg;
+// 	int	left = philo->philosopher - 1;
+// 	int right = philo->philosopher;
 
-	// printf("Time to eat: %d\n", philo->table->to_eat);
-	if (philo->philosopher == philo->table->num_philos)
-		right = 0;
-	// printf("philosopher number: |%d|\n", philo->philosopher);
-	// // }
-	if (philo->state != EATING)
-	{
-		printf("Philosopher |%d| is having a think\n", philo->philosopher);
-		usleep(philo->table->to_think);
-	}
-	pthread_mutex_lock(&philo->table->ch_stick[left]);
-	pthread_mutex_lock(&philo->table->ch_stick[right]);
-	philo[philo->philosopher].left = true;
-	philo[philo->philosopher].right = true;
-	philo->state = EATING;
-	printf("Philosopher |%d| starts eating\n", philo->philosopher);
-	usleep(philo->table->to_eat);
-	printf("Philosopher |%d| has finished eating\n", philo->philosopher);
-	philo->state = THINKING;
-	philo[philo->philosopher].left = false;
-	philo[philo->philosopher].right = false;
-	pthread_mutex_unlock(&philo->table->ch_stick[left]);
-	pthread_mutex_unlock(&philo->table->ch_stick[right]);
+// 	if (philo->philosopher == philo->table->num_philos)
+// 		right = 0;
+// 	pthread_mutex_lock(&philo->table->ch_stick[left]);
+// 	pthread_mutex_lock(&philo->table->ch_stick[right]);
+// 	philo[philo->philosopher].left = true;
+// 	philo[philo->philosopher].right = true;
+// 	pthread_mutex_unlock(&philo->table->ch_stick[left]);
+// 	pthread_mutex_unlock(&philo->table->ch_stick[right]);
+// 	if (philo[philo->philosopher].left&& philo[philo->philosopher].right)
+// 	{
+// 		printf("Philosopher |%d| starts eating\n", philo->philosopher);
+// 		philo->state = EATING;
+// 		usleep(philo->table->to_eat);
+// 		printf("Philosopher |%d| has finished eating\n", philo->philosopher);
+// 		pthread_mutex_lock(&philo->table->ch_stick[left]);
+// 		pthread_mutex_lock(&philo->table->ch_stick[right]);
+// 		philo[philo->philosopher].left = false;
+// 		philo[philo->philosopher].right = false;
+// 		pthread_mutex_unlock(&philo->table->ch_stick[left]);
+// 		pthread_mutex_unlock(&philo->table->ch_stick[right]);
+// 	}
+// 	else
+// 	{
+// 		philo->state = THINKING;
+// 		usleep(philo->table->to_think);
+// 	}
 
-	return (NULL);
-}
+// 	return (NULL);
+// }
 
 void	init_threads(t_philo **philo, t_table **table)
 {
@@ -99,10 +103,14 @@ void	init_threads(t_philo **philo, t_table **table)
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
 
 	structure = *philo;
+	
+	// printf("Start time in ms is |%d|\n", (*table)->start_time);
 	// printf("The philosopher value here is %d\n",structure[0]->philosopher);
 
 	(*table)->ch_stick = stick_temp;
 	i = 0;
+	gettimeofday(&(*table)->current_time, NULL);
+	(*table)->start_time = (*table)->current_time.tv_usec;
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
