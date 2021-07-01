@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/01 16:58:24 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/01 18:02:06 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void		*thread_func(void *);
 enum	states
 {
 	THINKING = 0,
-	EATING = 1
+	EATING = 1,
+	SLEEPING = 2
 };
 
 typedef	struct	s_table
@@ -39,9 +40,9 @@ typedef	struct	s_table
 	struct timeval current_time;
 	unsigned int	to_die;
 	unsigned int	to_eat;
-	unsigned int	to_think;
+	unsigned int	to_sleep;
 	unsigned int	start_time;
-	// int	rounds;
+	unsigned int	rounds;
 	/* data */
 }				t_table;
 

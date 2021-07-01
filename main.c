@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/01 17:03:57 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/01 18:02:15 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	return(philosophers);
 }
 
-t_philo	*process_args(char *argv[], t_table **table)
+t_philo	*process_args(int argc, char *argv[], t_table **table)
 {
 	t_philo *philos;
 	/*
@@ -48,8 +48,12 @@ t_philo	*process_args(char *argv[], t_table **table)
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
-	(*table)->to_think = ft_atoi(argv[4]);
+	(*table)->to_sleep = ft_atoi(argv[4]);
 	(*table)->start_time = 0;
+	if (argc == 6)
+		(*table)->rounds = ft_atoi(argv[5]);
+	else
+		(*table)->rounds = 0;
 	// printf("Number of philosophers: %d\n",(*table)->num_philos);
 	philos = init_philos(table, (*table)->num_philos);
 	// for (int i = 0; i < (*table)->num_philos; i++)
@@ -97,10 +101,9 @@ int	main(int argc, char *argv[])
 	t_philo *philo;
 
 	table = malloc(sizeof(t_table));
-	if (argc == 5 || argc == 6 || argc == 3)
+	if (argc == 5 || argc == 6)
 	{
-		philo = process_args(argv, &table);
-		// ft_putstr_fd("heya\n", 1);
+		philo = process_args(argc, argv, &table);
 		init_threads(&philo, &table);
 	}
 	else
