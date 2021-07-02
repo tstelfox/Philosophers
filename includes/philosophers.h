@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/01 18:02:06 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/02 15:08:51 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef	struct	s_table
 	unsigned int	to_die;
 	unsigned int	to_eat;
 	unsigned int	to_sleep;
-	unsigned int	start_time;
+	unsigned long long	start_time;
 	unsigned int	rounds;
 	/* data */
 }				t_table;
