@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/02 15:09:06 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/02 17:03:58 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 unsigned long long	get_timestamp(t_philo *philo)
 {
-	struct timeval current_time;
-	unsigned long	timestamp;
+	struct timeval c_time;
+	unsigned long long	timestamp;
 
-	gettimeofday(&current_time, NULL);
-	timestamp = 1000000 * current_time.tv_sec + current_time.tv_usec;
+	gettimeofday(&c_time, NULL);
+	timestamp = c_time.tv_sec * 1000 + c_time.tv_usec / 1000;
+	// timestamp = 1000000 * c_time.tv_sec + c_time.tv_usec;
 	timestamp -= philo->table->start_time;
+	(void)philo;
+	// timestamp = ((1000000 * (c_time.tv_sec - philo->table->current_time.tv_sec) + \
+	// 	(c_time.tv_usec - philo->table->current_time.tv_usec)) / 1000);
 	return(timestamp);
 }
 
@@ -37,9 +41,7 @@ void	*thread_func(void *arg)
 	{
 		// gettimeofday(&philo->table->current_time, NULL);
 		pthread_mutex_lock(&philo->table->ch_stick[left]);
-		{
 			philo->left = true;
-		}
 		pthread_mutex_unlock(&philo->table->ch_stick[left]);
 		pthread_mutex_lock(&philo->table->ch_stick[right]);
 		philo->right = true;
