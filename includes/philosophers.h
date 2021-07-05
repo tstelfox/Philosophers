@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 18:01:17 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/05 18:36:47 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef	struct	s_philo
 	bool	left;
 	bool	right;
 	struct s_table	*table;
+	long long	last_ate;
 	/* data */
 }				t_philo;
 

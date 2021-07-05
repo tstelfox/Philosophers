@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 18:01:15 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/05 18:37:34 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		philosophers[i].philosopher = i + 1;
 		philosophers[i].left = false;
 		philosophers[i].right = false;
+		philosophers[i].last_ate = 0;
 		philosophers[i].table = *table;
 		// printf("Number of philosophers: %d\n", philosophers[i]->table->num_philos);
 		i++;
@@ -46,9 +47,9 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 		Store the arguments in a struct
 	*/
 	(*table)->num_philos = ft_atoi(argv[1]);
-	(*table)->to_die = ft_atoi(argv[2]) * 1000;
-	(*table)->to_eat = ft_atoi(argv[3]) * 1000;
-	(*table)->to_sleep = ft_atoi(argv[4]) * 1000;
+	(*table)->to_die = ft_atoi(argv[2]);
+	(*table)->to_eat = ft_atoi(argv[3]);
+	(*table)->to_sleep = ft_atoi(argv[4]);
 	// (*table)->start_time = 0;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
