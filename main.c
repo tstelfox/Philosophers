@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 16:29:24 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/05 18:01:15 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	init_threads(t_philo **philo, t_table **table)
 
 	(*table)->ch_stick = stick_temp;
 	i = 0;
-	gettimeofday(&(*table)->current_time, NULL);
-	(*table)->start_time = (*table)->current_time;
+	gettimeofday(&(*table)->start_time, NULL);
+	// (*table)->start_time = (*table)->current_time;
 	// (*table)->start_time = 1000000 * (*table)->current_time.tv_sec + (*table)->current_time.tv_usec;
 	while (i < (*table)->num_philos)
 	{
