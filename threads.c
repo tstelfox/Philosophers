@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 18:08:30 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/05 18:14:04 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ unsigned long long	get_timestamp(t_philo *philo)
 	gettimeofday(&c_time, NULL);
 	s_time = philo->table->start_time;
 	timestamp = (c_time.tv_sec - s_time.tv_sec) * 1000 + (c_time.tv_usec - s_time.tv_usec) / 1000;
-	//  / 1000;
 	// timestamp = 1000000 * c_time.tv_sec + c_time.tv_usec;
 	// timestamp -= philo->table->start_time;
 	// (void)philo;
