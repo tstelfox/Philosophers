@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/02 17:04:30 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/05 16:29:24 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 		Store the arguments in a struct
 	*/
 	(*table)->num_philos = ft_atoi(argv[1]);
-	(*table)->to_die = ft_atoi(argv[2]);
-	(*table)->to_eat = ft_atoi(argv[3]);
-	(*table)->to_sleep = ft_atoi(argv[4]);
-	(*table)->start_time = 0;
+	(*table)->to_die = ft_atoi(argv[2]) * 1000;
+	(*table)->to_eat = ft_atoi(argv[3]) * 1000;
+	(*table)->to_sleep = ft_atoi(argv[4]) * 1000;
+	// (*table)->start_time = 0;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
 	else
@@ -78,7 +78,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->current_time, NULL);
-	(*table)->start_time = (*table)->current_time.tv_sec * 1000 + (*table)->current_time.tv_usec / 1000;
+	(*table)->start_time = (*table)->current_time;
 	// (*table)->start_time = 1000000 * (*table)->current_time.tv_sec + (*table)->current_time.tv_usec;
 	while (i < (*table)->num_philos)
 	{
