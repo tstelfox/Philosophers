@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/08 12:32:06 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/08 12:49:19 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-// Utils
-void		ft_putstr_fd(char *s, int fd);
-size_t		ft_strlen(const char *s);
-int			ft_atoi(const char *str);
-void		ft_bzero(void *s, size_t n);
-void		*thread_func(void *);
 
 enum	states
 {
@@ -68,6 +61,14 @@ typedef	struct	s_philo
 	/* data */
 }				t_philo;
 
+// Utils
+void		ft_putstr_fd(char *s, int fd);
+size_t		ft_strlen(const char *s);
+int			ft_atoi(const char *str);
+void		ft_bzero(void *s, size_t n);
+unsigned long long	get_timestamp(t_philo *philo);
 
+void		*thread_func(void *);
+void		eat_loop(t_philo *philo);
 
 #endif

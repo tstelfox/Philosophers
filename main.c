@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/08 12:32:44 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/08 12:42:48 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	t_philo *philos;
 	/*
 		Do the classic argument parsing.
-		Store the arguments in a struct
 	*/
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
@@ -46,15 +45,11 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	(*table)->to_sleep = ft_atoi(argv[4]);
 	(*table)->dinner_over = false;
 	(*table)->dead = false;
-	// (*table)->start_time = 0;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
 	else
 		(*table)->rounds = 0;
-	// printf("Number of philosophers: %d\n",(*table)->num_philos);
 	philos = init_philos(table, (*table)->num_philos);
-	// for (int i = 0; i < (*table)->num_philos; i++)
-	// 	printf("Well it is |%d|\n", philos[0]->state);
 	return (philos);
 }
 
@@ -68,16 +63,11 @@ void	init_threads(t_philo **philo, t_table **table)
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
 
 	structure = *philo;
-	
-	// printf("Start time in ms is |%d|\n", (*table)->start_time);
-	// printf("The philosopher value here is %d\n",structure[0]->philosopher);
 
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
 	pthread_mutex_init(&(*table)->lock_action, NULL);
-	// (*table)->start_time = (*table)->current_time;
-	// (*table)->start_time = 1000000 * (*table)->current_time.tv_sec + (*table)->current_time.tv_usec;
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);

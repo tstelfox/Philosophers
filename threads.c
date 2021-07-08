@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/08 12:13:32 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/08 12:49:11 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,45 +33,33 @@ unsigned long long	get_timestamp(t_philo *philo)
 	gettimeofday(&c_time, NULL);
 	s_time = philo->table->start_time;
 	timestamp = (c_time.tv_sec - s_time.tv_sec) * 1000 + (c_time.tv_usec - s_time.tv_usec) / 1000;
-	// printf("Time since last ate is |%lld|\n", timestamp - philo->last_ate);
-	// printf("Time to die is |%d|\n", philo->table->to_die);
 	if (timestamp - philo->last_ate > philo->table->to_die)
 		get_rekt(philo, timestamp);
-	// timestamp = 1000000 * c_time.tv_sec + c_time.tv_usec;
-	// timestamp -= philo->table->start_time;
-	// (void)philo;
-	// timestamp = ((1000000 * (c_time.tv_sec - philo->table->current_time.tv_sec) + \
-	// 	(c_time.tv_usec - philo->table->current_time.tv_usec)) / 1000);
 	return(timestamp);
 }
 
 void	*thread_func(void *arg)
 {
 	t_philo	*philo = (t_philo *)arg;
-	int	left = philo->philosopher - 1;
-	int right = philo->philosopher;
-	int	meal_count = 0;
 	long long	time_s;
 
-	if (philo->philosopher == philo->table->num_philos)
-		right = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->ch_stick[left]);
-		philo->left = true;
-		pthread_mutex_lock(&philo->table->ch_stick[right]);
-		philo->right = true;
-		meal_count++;
-		time_s = get_timestamp(philo);
-		philo->last_ate = time_s;
-		printf("|%lld| Philosopher |%d| is eating\n", time_s, philo->philosopher);
-		philo->state = EATING;
-		usleep(philo->table->to_eat * 1000);
-		philo->left = false;
-		pthread_mutex_unlock(&philo->table->ch_stick[left]);
-		philo->right = false;
-		pthread_mutex_unlock(&philo->table->ch_stick[right]);
+		// pthread_mutex_lock(&philo->table->ch_stick[left]);
+		// philo->left = true;
+		// pthread_mutex_lock(&philo->table->ch_stick[right]);
+		// philo->right = true;
+		// time_s = get_timestamp(philo);
+		// philo->last_ate = time_s;
+		// printf("|%lld| Philosopher |%d| is eating\n", time_s, philo->philosopher);
+		// philo->state = EATING;
+		// usleep(philo->table->to_eat * 1000);
+		// philo->left = false;
+		// pthread_mutex_unlock(&philo->table->ch_stick[left]);
+		// philo->right = false;
+		// pthread_mutex_unlock(&philo->table->ch_stick[right]);
 		// }
+		eat_loop(philo);
 		if (philo->state == EATING)
 		{
 			time_s = get_timestamp(philo);
@@ -85,8 +73,6 @@ void	*thread_func(void *arg)
 			printf("|%lld| Philosopher |%d| is thinking\n", time_s, philo->philosopher);
 			philo->state = THINKING;
 		}
-		if (meal_count == 10)
-			break;
 	}
 
 	return (NULL);
