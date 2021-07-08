@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 18:37:34 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/08 12:32:44 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,16 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	int i;
 
 	philosophers = malloc(sizeof(t_philo) * (num_philos));
-	// philosophers[num_philos] = NULL;
 	i = 0;
-	// printf("IS THINKING |%d| NOT WHAT I THINK IT IS?\n", THINKING);
-	// printf("What size is it? |%lu|?\n", sizeof(t_philo));
-
 	while (i < num_philos)
 	{
-		// philosophers[i] = malloc(sizeof(t_philo));
-		// ft_bzero(philosophers[i], sizeof(t_philo));
 		philosophers[i].state = THINKING;
 		philosophers[i].philosopher = i + 1;
 		philosophers[i].left = false;
 		philosophers[i].right = false;
 		philosophers[i].last_ate = 0;
+		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
-		// printf("Number of philosophers: %d\n", philosophers[i]->table->num_philos);
 		i++;
 	}
 	return(philosophers);
@@ -50,6 +44,8 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
 	(*table)->to_sleep = ft_atoi(argv[4]);
+	(*table)->dinner_over = false;
+	(*table)->dead = false;
 	// (*table)->start_time = 0;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
@@ -79,6 +75,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
+	pthread_mutex_init(&(*table)->lock_action, NULL);
 	// (*table)->start_time = (*table)->current_time;
 	// (*table)->start_time = 1000000 * (*table)->current_time.tv_sec + (*table)->current_time.tv_usec;
 	while (i < (*table)->num_philos)

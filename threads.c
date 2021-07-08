@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/05 18:38:40 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/08 12:13:32 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 void	get_rekt(t_philo *philo, long long timestamp)
 {
+	pthread_mutex_t	*lock;
+
+	lock = &philo->table->lock_action;
+	pthread_mutex_lock(lock);
 	printf("|%lld| Philosopher |%d| be ded\n", timestamp, philo->philosopher);
 	exit(0);
+	pthread_mutex_lock(lock);
 }
 
 unsigned long long	get_timestamp(t_philo *philo)
@@ -56,16 +61,6 @@ void	*thread_func(void *arg)
 		philo->left = true;
 		pthread_mutex_lock(&philo->table->ch_stick[right]);
 		philo->right = true;
-		// if (!(philo->right && philo->left) && (philo->right || philo->left))
-		// {
-		// 	printf("IN HERE?\n");
-		// 	if (philo->right)
-		// 		pthread_mutex_unlock(&philo->table->ch_stick[right]);
-		// 	else if(philo->left)
-		// 		pthread_mutex_unlock(&philo->table->ch_stick[left]);
-		// }
-		// else
-		// {
 		meal_count++;
 		time_s = get_timestamp(philo);
 		philo->last_ate = time_s;
