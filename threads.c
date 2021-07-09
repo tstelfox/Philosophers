@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 15:44:28 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 16:07:07 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,17 @@ unsigned long long	get_timestamp(t_philo *philo)
 void	*monitor_func(void *arg)
 {
 	t_philo	*philo = arg;
-	while (1)
+	while (!philo->dead)
 	{
+		pthread_mutex_lock(philo->table->lock_death);
 		if (philo->dead == true)
 		{
 			print_action(philo);
 		}
+		pthread_mutex_unlock(philo->table->lock_death);
 		// If dead lock everything and exit.
 	}
+	return(NULL);
 }
 
 void	*thread_func(void *arg)
