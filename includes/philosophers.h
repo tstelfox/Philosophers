@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 15:44:17 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 16:19:37 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef	struct	s_philo
 	int	philosopher;
 	bool	left;
 	bool	right;
-	bool	dead;
 	int	meals_num;
 	struct s_table	*table;
 	long long	last_ate;

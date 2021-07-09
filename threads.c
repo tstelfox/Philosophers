@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 16:07:07 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 16:32:45 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	get_rekt(t_philo *philo)
 
 	// lock = &philo->table->lock_action;
 	// pthread_mutex_lock(philo->table->lock_action);
-	philo->dead = true;
 	print_action(philo);
 	// printf("|%lld| Philosopher |%d| be ded\n", timestamp, philo->philosopher);
 	// exit(0);
@@ -38,7 +37,7 @@ unsigned long long	get_timestamp(t_philo *philo)
 	pthread_mutex_lock(philo->table->lock_death);
 	if (timestamp - philo->last_ate > philo->table->to_die)
 	{
-		philo->dead = true;
+		philo->table->sum1dead = true;
 		// pthread_mutex_unlock(philo->table->lock_action);
 		print_action(philo);
 	}
@@ -49,12 +48,12 @@ unsigned long long	get_timestamp(t_philo *philo)
 void	*monitor_func(void *arg)
 {
 	t_philo	*philo = arg;
-	while (!philo->dead)
+	while (!philo->table->sum1dead)
 	{
 		pthread_mutex_lock(philo->table->lock_death);
-		if (philo->dead == true)
+		if (philo->table->sum1dead)
 		{
-			print_action(philo);
+			return(NULL);
 		}
 		pthread_mutex_unlock(philo->table->lock_death);
 		// If dead lock everything and exit.
