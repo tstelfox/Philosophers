@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 16:32:45 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 16:41:39 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void	*monitor_func(void *arg)
 	while (!philo->table->sum1dead)
 	{
 		pthread_mutex_lock(philo->table->lock_death);
-		if (philo->table->sum1dead)
-		{
-			return(NULL);
-		}
+		print_action(philo);
 		pthread_mutex_unlock(philo->table->lock_death);
 		// If dead lock everything and exit.
 	}
@@ -91,6 +88,5 @@ void	*thread_func(void *arg)
 			philo->state = THINKING;
 		}
 	}
-
 	return (NULL);
 }
