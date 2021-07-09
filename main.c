@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/08 12:42:48 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 15:03:16 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		philosophers[i].last_ate = 0;
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
+		philosophers[i].dead = false;
 		i++;
 	}
 	return(philosophers);
@@ -39,6 +40,7 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	/*
 		Do the classic argument parsing.
 	*/
+	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
@@ -67,7 +69,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
-	pthread_mutex_init(&(*table)->lock_action, NULL);
+	pthread_mutex_init((*table)->lock_action, NULL);
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);

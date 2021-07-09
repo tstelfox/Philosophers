@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/08 12:49:19 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 15:03:03 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef	struct	s_table
 {
 	int	num_philos;
 	pthread_mutex_t	*ch_stick;
-	pthread_mutex_t	lock_action;
+	pthread_mutex_t	*lock_action;
 	struct timeval current_time;
 	unsigned int	to_die;
 	unsigned int	to_eat;
@@ -54,6 +54,7 @@ typedef	struct	s_philo
 	int	philosopher;
 	bool	left;
 	bool	right;
+	bool	dead;
 	int	meals_num;
 	struct s_table	*table;
 	long long	last_ate;
