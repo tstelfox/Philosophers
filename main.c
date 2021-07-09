@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 15:03:16 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 15:47:09 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 		Do the classic argument parsing.
 	*/
 	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
+	(*table)->lock_death = malloc(sizeof(pthread_mutex_t));
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
 	(*table)->to_sleep = ft_atoi(argv[4]);
 	(*table)->dinner_over = false;
-	(*table)->dead = false;
+	(*table)->sum1dead = false;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
 	else
@@ -70,6 +71,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
 	pthread_mutex_init((*table)->lock_action, NULL);
+	pthread_mutex_init((*table)->lock_death, NULL);
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
@@ -84,6 +86,8 @@ void	init_threads(t_philo **philo, t_table **table)
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;
 	}
+	pthread_mutex_destroy((*table)->lock_action);
+	pthread_mutex_destroy((*table)->lock_death);
 }
 
 int	main(int argc, char *argv[])

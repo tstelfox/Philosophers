@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 15:03:03 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/09 15:44:17 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ typedef	struct	s_table
 	int	num_philos;
 	pthread_mutex_t	*ch_stick;
 	pthread_mutex_t	*lock_action;
+	pthread_mutex_t *lock_death;
 	struct timeval current_time;
 	unsigned int	to_die;
 	unsigned int	to_eat;
 	unsigned int	to_sleep;
 	struct timeval	start_time;
 	bool	dinner_over;
-	bool	dead;
+	bool	sum1dead;
 	unsigned int	rounds;
 	/* data */
 }				t_table;
@@ -71,5 +72,6 @@ unsigned long long	get_timestamp(t_philo *philo);
 
 void		*thread_func(void *);
 void		eat_loop(t_philo *philo);
+void		print_action(t_philo *philo);
 
 #endif
