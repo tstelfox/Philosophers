@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 18:47:15 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 19:13:31 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ unsigned long long	get_timestamp(t_philo *philo);
 void		*thread_func(void *);
 void		eat_loop(t_philo *philo);
 void		print_action(t_philo *philo, int action);
-
+bool		check_death(t_philo *philo);
 #endif

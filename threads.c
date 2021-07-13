@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 19:03:16 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 19:13:40 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*monitor_func(void *arg)
 		// pthread_mutex_lock(philo->table->lock_action);
 		if (!philo->table->sum1dead)
 		{
-			if (get_timestamp(philo) - philo->last_ate > philo->table->to_die)
+			if (check_death(philo))
 			{
 				print_action(philo, DIED);
 			}
