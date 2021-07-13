@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/08 12:43:29 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 20:59:06 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 22:49:55 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	eat_loop(t_philo *philo)
 	pthread_mutex_lock(&philo->table->ch_stick[left]);
 	pthread_mutex_lock(&philo->table->ch_stick[right]);
 
-	// pthread_mutex_lock(philo->table->lock_action);
 	print_action(philo, EATING);
 	philo->state = EATING;
 
