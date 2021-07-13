@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 15:53:42 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 18:47:15 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef	struct	s_table
 	pthread_mutex_t	*ch_stick;
 	pthread_mutex_t	*lock_action;
 	pthread_mutex_t *lock_death;
+	// pthread_mutex_t *lock_print;
 	struct timeval current_time;
 	unsigned int	to_die;
 	unsigned int	to_eat;

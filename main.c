@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 14:59:01 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 18:47:28 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	*/
 	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
 	(*table)->lock_death = malloc(sizeof(pthread_mutex_t));
+	// (*table)->lock_print = malloc(sizeof(pthread_mutex_t));
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
@@ -66,11 +67,12 @@ void	init_threads(t_philo **philo, t_table **table)
 
 	structure = *philo;
 
+	pthread_mutex_init((*table)->lock_action, NULL);
+	pthread_mutex_init((*table)->lock_death, NULL);
+	// pthread_mutex_init((*table)->lock_print, NULL);
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
-	pthread_mutex_init((*table)->lock_action, NULL);
-	pthread_mutex_init((*table)->lock_death, NULL);
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
@@ -87,6 +89,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	}
 	pthread_mutex_destroy((*table)->lock_action);
 	pthread_mutex_destroy((*table)->lock_death);
+	// pthread_mutex_destroy((*table)->lock_print);a
 }
 
 int	main(int argc, char *argv[])
