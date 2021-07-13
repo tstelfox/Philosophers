@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 18:47:28 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 20:26:11 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	i = 0;
 	while (i < num_philos)
 	{
+		philosophers[i].lock_print = malloc(sizeof(pthread_mutex_t));
 		philosophers[i].state = THINKING;
 		philosophers[i].philosopher = i + 1;
 		// philosophers[i].left = false;
@@ -69,12 +70,12 @@ void	init_threads(t_philo **philo, t_table **table)
 
 	pthread_mutex_init((*table)->lock_action, NULL);
 	pthread_mutex_init((*table)->lock_death, NULL);
-	// pthread_mutex_init((*table)->lock_print, NULL);
 	(*table)->ch_stick = stick_temp;
 	i = 0;
 	gettimeofday(&(*table)->start_time, NULL);
 	while (i < (*table)->num_philos)
 	{
+		pthread_mutex_init(structure[i].lock_print, NULL);
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
 		i++;

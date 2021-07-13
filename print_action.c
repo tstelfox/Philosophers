@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 19:16:10 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 20:36:08 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ void	do_action(t_philo *philo, int action)
 		printf("|%lld| Philosopher |%d| is eating\n", timestamp, philo->philosopher);
 		usleep(philo->table->to_eat * 1000);
 	}
+	else if (action == SLEEPING)
+	{
+		timestamp = get_timestamp(philo);
+		printf("|%lld| Philosopher |%d| is sleeping\n", timestamp, philo->philosopher);
+		usleep(philo->table->to_sleep * 1000);
+	}
+	else if (action == THINKING)
+	{
+		timestamp = get_timestamp(philo);
+		printf("|%lld| Philosopher |%d| is thinking\n", timestamp, philo->philosopher);
+	}
 }
 
 void	print_action(t_philo *philo, int action)
@@ -32,7 +43,7 @@ void	print_action(t_philo *philo, int action)
 	long long	timestamp;
 
 	pthread_mutex_lock(philo->table->lock_action);
-	// pthread_mutex_lock(philo->table->lock_print);
+	pthread_mutex_lock(philo->lock_print);
 	if (!philo->table->sum1dead)
 	{
 		if (action == DIED)
@@ -49,5 +60,5 @@ void	print_action(t_philo *philo, int action)
 		// pthread_mutex_lock(philo->table->lock_death);
 	}
 	pthread_mutex_unlock(philo->table->lock_action);
-	// pthread_mutex_unlock(philo->table->lock_print);
+	pthread_mutex_unlock(philo->lock_print);
 }
