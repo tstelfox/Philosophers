@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 20:26:11 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 21:03:45 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		philosophers[i].philosopher = i + 1;
 		// philosophers[i].left = false;
 		// philosophers[i].right = false;
-		philosophers[i].last_ate = 0;
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
+		philosophers[i].last_ate = get_timestamp(&philosophers[i]);
 		i++;
 	}
 	return(philosophers);
@@ -77,6 +77,11 @@ void	init_threads(t_philo **philo, t_table **table)
 	{
 		pthread_mutex_init(structure[i].lock_print, NULL);
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
+		i++;
+	}
+	i = 0;
+	while (i < (*table)->num_philos)
+	{
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
 		i++;
 	}

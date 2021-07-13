@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 20:36:08 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 20:59:43 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	do_action(t_philo *philo, int action)
 	if (action == EATING)
 	{
 		timestamp = get_timestamp(philo);
-		// pthread_mutex_lock(philo->table->lock_death);
-		// printf("Porcoddio: |%d|\n", philo->philosopher);
 		philo->last_ate = timestamp;
-		// pthread_mutex_unlock(philo->table->lock_death);
 		printf("|%lld| Philosopher |%d| is eating\n", timestamp, philo->philosopher);
 		usleep(philo->table->to_eat * 1000);
 	}
@@ -55,10 +52,8 @@ void	print_action(t_philo *philo, int action)
 		else
 		{
 			do_action(philo, action);
-			// Other stuff
 		}
-		// pthread_mutex_lock(philo->table->lock_death);
 	}
-	pthread_mutex_unlock(philo->table->lock_action);
 	pthread_mutex_unlock(philo->lock_print);
+	pthread_mutex_unlock(philo->table->lock_action);
 }
