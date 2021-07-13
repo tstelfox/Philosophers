@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 20:59:14 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 21:10:58 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ void	*thread_func(void *arg)
 		if (philo->state == THINKING)
 		eat_loop(philo);
 		sleep_or_think(philo);
+	}
+	i = 0;
+	while (i < philo->table->num_philos)
+	{
+		pthread_join(monitor[i], NULL);
+		i++;
 	}
 	return (NULL);
 }
