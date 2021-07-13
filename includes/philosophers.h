@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 16:19:37 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 15:53:42 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ enum	states
 {
 	THINKING = 0,
 	EATING = 1,
-	SLEEPING = 2
+	SLEEPING = 2,
+	DIED = 3
 };
 
 // typedef	struct	s_flags
@@ -71,6 +72,6 @@ unsigned long long	get_timestamp(t_philo *philo);
 
 void		*thread_func(void *);
 void		eat_loop(t_philo *philo);
-void		print_action(t_philo *philo);
+void		print_action(t_philo *philo, int action);
 
 #endif

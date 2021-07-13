@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/09 16:19:46 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/13 14:59:01 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	{
 		philosophers[i].state = THINKING;
 		philosophers[i].philosopher = i + 1;
-		philosophers[i].left = false;
-		philosophers[i].right = false;
+		// philosophers[i].left = false;
+		// philosophers[i].right = false;
 		philosophers[i].last_ate = 0;
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
@@ -101,8 +101,6 @@ int	main(int argc, char *argv[])
 		init_threads(&philo, &table);
 	}
 	else
-	{
 		ft_putstr_fd("Wrong no. of args\n", 1);
-	}
 	return (0);
 }
