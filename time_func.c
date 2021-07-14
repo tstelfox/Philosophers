@@ -6,13 +6,13 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/13 15:11:14 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 17:18:18 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 19:12:28 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-unsigned long long	get_timestamp(t_philo *philo)
+long long	get_timestamp(t_philo *philo)
 {
 	struct timeval c_time;
 	struct timeval s_time;
@@ -37,4 +37,26 @@ bool	check_death(t_philo *philo)
 		return (1);
 	else
 		return (0);
+}
+
+long long	get_diff(struct timeval now, t_philo *philo)
+{
+	long long difference;
+
+	difference = (now.tv_sec - philo->table->start_time.tv_sec) * 
+		1000 + (now.tv_usec - philo->table->start_time.tv_usec) / 1000;
+	return (difference);
+}
+
+void	precision_sleep(long long duration, t_philo *philo)
+{
+	struct	timeval	start;
+	long long		startsleep;
+
+	gettimeofday(&start, NULL);
+	startsleep = get_diff(start, philo);
+	while ((get_timestamp(philo) - startsleep < duration) && !any1dead(philo->table))
+	{
+		usleep(100);
+	}
 }

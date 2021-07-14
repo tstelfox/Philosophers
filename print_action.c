@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 18:13:35 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 19:09:47 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	do_action(t_philo *philo, int action)
 		timestamp = get_timestamp(philo);
 		gettimeofday(&philo->last_ate, NULL);
 		printf("|%lld| Philosopher |%d| is eating\n", timestamp, philo->philosopher);
-		usleep(philo->table->to_eat * 1000);
+		precision_sleep(philo->table->to_eat * 1000, philo);
 	}
 	else if (action == SLEEPING)
 	{
 		timestamp = get_timestamp(philo);
 		printf("|%lld| Philosopher |%d| is sleeping\n", timestamp, philo->philosopher);
-		usleep(philo->table->to_sleep * 1000);
+		precision_sleep(philo->table->to_sleep * 1000, philo);
 	}
 	else if (action == THINKING)
 	{

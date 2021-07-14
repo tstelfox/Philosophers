@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 17:57:13 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 19:11:39 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		ft_putstr_fd(char *s, int fd);
 size_t		ft_strlen(const char *s);
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
-unsigned long long	get_timestamp(t_philo *philo);
+long long	get_timestamp(t_philo *philo);
 
 void		*thread_func(void *);
 void		eat_loop(t_philo *philo);
@@ -72,4 +72,5 @@ bool		check_death(t_philo *philo);
 void		sleep_or_think(t_philo *philo);
 void		*monitor_func(void *arg);
 bool		any1dead(t_table *table);
+void		precision_sleep(long long duration, t_philo *philo);
 #endif
