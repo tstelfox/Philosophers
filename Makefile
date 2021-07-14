@@ -6,11 +6,11 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/07/13 21:01:56 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/14 19:17:19 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = plate_o
+NAME = philo
 
 INCLUDES = -Iincludes
 
