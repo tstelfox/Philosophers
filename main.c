@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 21:03:45 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 17:36:43 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 t_philo	*init_philos(t_table **table, int num_philos)
 {
 	t_philo	*philosophers;
+	struct timeval now;
 	int i;
 
+	gettimeofday(&now, NULL);
 	philosophers = malloc(sizeof(t_philo) * (num_philos));
 	i = 0;
 	while (i < num_philos)
@@ -28,7 +30,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		// philosophers[i].right = false;
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
-		philosophers[i].last_ate = get_timestamp(&philosophers[i]);
+		philosophers[i].last_ate = now;
 		i++;
 	}
 	return(philosophers);
@@ -65,6 +67,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
+	pthread_t	monitor[(*table)->num_philos];
 
 	structure = *philo;
 
@@ -83,12 +86,14 @@ void	init_threads(t_philo **philo, t_table **table)
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
+		pthread_create(&monitor[i], NULL, &monitor_func, (void *)&structure[i]);
 		i++;
 	}
 	i = 0;
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
+		pthread_join(monitor[i], NULL);
 		printf("Thread %d rejoined\n", i);
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;

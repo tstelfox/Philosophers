@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 20:36:38 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 17:57:13 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ enum	states
 	SLEEPING = 2,
 	DIED = 3
 };
-
-// typedef	struct	s_flags
-// {
-	// bool	full;
-	// bool	dead;
-// }				t_flags;
 
 typedef	struct	s_table
 {
@@ -59,7 +53,7 @@ typedef	struct	s_philo
 	bool	right;
 	int	meals_num;
 	struct s_table	*table;
-	long long	last_ate;
+	struct timeval	last_ate;
 	
 	/* data */
 }				t_philo;
@@ -76,4 +70,6 @@ void		eat_loop(t_philo *philo);
 void		print_action(t_philo *philo, int action);
 bool		check_death(t_philo *philo);
 void		sleep_or_think(t_philo *philo);
+void		*monitor_func(void *arg);
+bool		any1dead(t_table *table);
 #endif

@@ -6,24 +6,36 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/13 22:53:45 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/14 18:44:24 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+bool	any1dead(t_table *table)
+{
+	return(table->sum1dead);
+}
+
 void	*monitor_func(void *arg)
 {
 	t_philo	*philo = arg;
-	while (!philo->table->sum1dead)
+	while (1)
 	{
 		pthread_mutex_lock(philo->table->lock_death);
-		if (!philo->table->sum1dead)
+		if (!any1dead(philo->table))
 		{
 			if (check_death(philo))
 			{
 				print_action(philo, DIED);
+				pthread_mutex_unlock(philo->table->lock_death);
+				return (NULL);
 			}
+		}
+		else if (any1dead(philo->table))
+		{
+			pthread_mutex_unlock(philo->table->lock_death);
+			return (NULL);
 		}
 		pthread_mutex_unlock(philo->table->lock_death);
 	}
@@ -33,26 +45,21 @@ void	*monitor_func(void *arg)
 void	*thread_func(void *arg)
 {
 	t_philo	*philo = (t_philo *)arg;
-	pthread_t	monitor[philo->table->num_philos];
-	int i;
 
-	i = 0;
-	while (i < philo->table->num_philos)
-	{
-		pthread_create(&monitor[i], NULL, &monitor_func, (void *)philo);
-		i++;
-	}
-	while (!philo->table->sum1dead)
+	if (philo->table->num_philos == 1)
+		return (NULL);
+	while (1)
 	{
 		if (philo->state == THINKING)
-		eat_loop(philo);
+			eat_loop(philo);
 		sleep_or_think(philo);
-	}
-	i = 0;
-	while (i < philo->table->num_philos)
-	{
-		pthread_join(monitor[i], NULL);
-		i++;
+		pthread_mutex_lock(philo->table->lock_death);
+		if (any1dead(philo->table))
+		{
+			pthread_mutex_unlock(philo->table->lock_death);
+			return (NULL);
+		}
+		pthread_mutex_unlock(philo->table->lock_death);
 	}
 	return (NULL);
 }
