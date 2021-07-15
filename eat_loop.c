@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/08 12:43:29 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/15 12:37:00 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/15 13:20:14 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	grab_fork(pthread_mutex_t *ch_stick, t_philo *philo)
 {
 	pthread_mutex_lock(ch_stick);
+	// if (!any1dead(philo->table))
 	print_action(philo, GRAB);
 }
 
