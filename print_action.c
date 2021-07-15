@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 19:19:50 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/15 12:35:10 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ void	do_action(t_philo *philo, int action)
 	{
 		timestamp = get_timestamp(philo);
 		printf("|%lld| Philosopher |%d| is thinking\n", timestamp, philo->philosopher);
+	}
+	else if (action == GRAB)
+	{
+		printf("|%lld| Philosopher |%d| grabs a fork\n", get_timestamp(philo), 
+			philo->philosopher);
+	}
+	else if (action == DROP)
+	{
+		printf("|%lld| Philosopher |%d| drops a fork\n", get_timestamp(philo), 
+			philo->philosopher);
 	}
 }
 

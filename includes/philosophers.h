@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 19:17:00 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/15 12:32:45 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ enum	states
 	THINKING = 0,
 	EATING = 1,
 	SLEEPING = 2,
-	DIED = 3
+	DIED = 3,
+	GRAB = 4,
+	DROP = 5
 };
 
 typedef	struct	s_table

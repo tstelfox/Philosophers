@@ -6,24 +6,22 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/08 12:43:29 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/15 12:22:40 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/15 12:37:00 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	grab_fork(pthread_mutex_t *ch_stick, t_philo *philo, int number)
+void	grab_fork(pthread_mutex_t *ch_stick, t_philo *philo)
 {
 	pthread_mutex_lock(ch_stick);
-	printf("|%lld| Philosopher |%d| grabs fork no. |%d|\n", get_timestamp(philo), 
-			philo->philosopher, number);
+	print_action(philo, GRAB);
 }
 
-void	drop_fork(pthread_mutex_t *ch_stick, t_philo *philo, int number)
+void	drop_fork(pthread_mutex_t *ch_stick, t_philo *philo)
 {
 	pthread_mutex_unlock(ch_stick);
-	printf("|%lld| Philosopher |%d| drops fork no. |%d|\n", get_timestamp(philo), 
-			philo->philosopher, number);
+	print_action(philo, DROP);
 }
 
 void	eat_loop(t_philo *philo)
@@ -34,14 +32,14 @@ void	eat_loop(t_philo *philo)
 	if (philo->philosopher == philo->table->num_philos)
 		right = 0;
 	
-	grab_fork(&philo->table->ch_stick[left], philo, left);
-	grab_fork(&philo->table->ch_stick[right], philo, right);
+	grab_fork(&philo->table->ch_stick[left], philo);
+	grab_fork(&philo->table->ch_stick[right], philo);
 
 	print_action(philo, EATING);
 	philo->state = EATING;
 
-	drop_fork(&philo->table->ch_stick[left], philo, left);
-	drop_fork(&philo->table->ch_stick[right], philo, right);
+	drop_fork(&philo->table->ch_stick[left], philo);
+	drop_fork(&philo->table->ch_stick[right], philo);
 }
 
 void	sleep_or_think(t_philo *philo)
@@ -49,7 +47,7 @@ void	sleep_or_think(t_philo *philo)
 	if (philo->state == EATING)
 	{
 		print_action(philo, SLEEPING);
-		usleep(philo->table->to_sleep * 1000);
+		// usleep(philo->table->to_sleep * 1000);
 		philo->state = SLEEPING;
 	}
 	if (philo->state == SLEEPING)
