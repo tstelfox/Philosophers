@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/14 17:36:43 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/20 16:47:10 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	*/
 	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
 	(*table)->lock_death = malloc(sizeof(pthread_mutex_t));
-	// (*table)->lock_print = malloc(sizeof(pthread_mutex_t));
 	(*table)->num_philos = ft_atoi(argv[1]);
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
 	(*table)->to_sleep = ft_atoi(argv[4]);
+	// printf("Time to sleep is |%d|\n", (*table)->to_sleep);
+	// printf("Time to eat is |%d|\n", (*table)->to_eat);
 	(*table)->dinner_over = false;
 	(*table)->sum1dead = false;
+	(*table)->other_cs = false;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
 	else
@@ -94,13 +96,11 @@ void	init_threads(t_philo **philo, t_table **table)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
 		pthread_join(monitor[i], NULL);
-		printf("Thread %d rejoined\n", i);
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;
 	}
 	pthread_mutex_destroy((*table)->lock_action);
 	pthread_mutex_destroy((*table)->lock_death);
-	// pthread_mutex_destroy((*table)->lock_print);a
 }
 
 int	main(int argc, char *argv[])

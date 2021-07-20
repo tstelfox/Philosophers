@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/13 15:11:14 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/15 13:03:23 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/20 16:05:47 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ void	precision_sleep(int duration, t_philo *philo)
 {
 	struct	timeval	start;
 
+	(void)philo;
 	gettimeofday(&start, NULL);
-	while (get_usec(start) < duration * 1000 && !any1dead(philo->table))
+	while (get_usec(start) < duration * 1000) // && !any1dead
 	{
 		usleep(100);
 	}

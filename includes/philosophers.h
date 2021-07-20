@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/15 12:51:36 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/20 16:46:51 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef	struct	s_table
 	struct timeval	start_time;
 	bool	dinner_over;
 	bool	sum1dead;
+	bool	other_cs;
 	unsigned int	rounds;
 	/* data */
 }				t_table;
