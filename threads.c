@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:40:49 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/20 17:23:42 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*thread_func(void *arg)
 	if (philo->table->num_philos == 1)
 		return (NULL);
 	if (philo->philosopher % 2)
-		usleep(50);
+		usleep(100);
 	while (1)
 	{
 		if (philo->state == THINKING)
