@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:47:10 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/22 20:45:18 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 void	init_threads(t_philo **philo, t_table **table)
 {
 	t_philo	*structure;
-	t_philo	*result;
 	int i;
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
-	pthread_t	monitor[(*table)->num_philos];
+	pthread_t	monitor;
 
 	structure = *philo;
 
@@ -88,17 +87,17 @@ void	init_threads(t_philo **philo, t_table **table)
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
-		pthread_create(&monitor[i], NULL, &monitor_func, (void *)&structure[i]);
 		i++;
 	}
+	pthread_create(&monitor, NULL, &monitor_func, (void *)&structure[0]);
 	i = 0;
 	while (i < (*table)->num_philos)
 	{
-		err = pthread_join(phil_thread[i], (void **)&result);
-		pthread_join(monitor[i], NULL);
+		err = pthread_join(phil_thread[i], NULL);
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;
 	}
+	pthread_join(monitor, NULL);
 	pthread_mutex_destroy((*table)->lock_action);
 	pthread_mutex_destroy((*table)->lock_death);
 }

@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:46:51 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/22 19:02:02 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef	struct	s_table
 	bool	sum1dead;
 	bool	other_cs;
 	unsigned int	rounds;
+	// s_philo	*philos;
 	/* data */
 }				t_table;
 

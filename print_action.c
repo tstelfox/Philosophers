@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:13:31 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/22 20:57:27 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,20 @@ void	print_action(t_philo *philo, int action)
 	struct timeval	action_time;
 
 	gettimeofday(&action_time, NULL);
-	pthread_mutex_lock(philo->lock_print);
 	pthread_mutex_lock(philo->table->lock_action);
+	pthread_mutex_lock(philo->lock_print);
 	if (action == DIED)
 	{
 		timestamp = get_timestamp(philo);
 		printf("|%lld| Philosopher |%d| be ded\n", timestamp, philo->philosopher);
+		// pthread_mutex_unlock(philo->lock_print);
 		philo->table->sum1dead = true;
 	}
 	else if (!any1dead(philo->table))
+	{
+		// pthread_mutex_lock(philo->lock_print);
 		do_action(philo, action);
-	pthread_mutex_unlock(philo->table->lock_action);
+	}
 	pthread_mutex_unlock(philo->lock_print);
+	pthread_mutex_unlock(philo->table->lock_action);
 }
