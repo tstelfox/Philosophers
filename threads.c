@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/22 20:56:43 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/22 21:01:45 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	*thread_func(void *arg)
 		usleep(100);
 	while (1)
 	{
+		// printf("What\n");
 		if (philo->state == THINKING)
 			eat_loop(philo);
 		sleep_or_think(philo);
