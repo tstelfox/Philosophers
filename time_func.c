@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/13 15:11:14 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:05:47 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/26 19:36:27 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	check_death(t_philo *philo)
 	gettimeofday(&now, NULL);
 	difference = (now.tv_sec - philo->last_ate.tv_sec) * 1000 
 		+ (now.tv_usec - philo->last_ate.tv_usec) / 1000;
-	if (difference > philo->table->to_die)
+	if (difference >= philo->table->to_die)
 		return (1);
 	else
 		return (0);
