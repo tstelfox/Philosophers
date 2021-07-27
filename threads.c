@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 13:29:50 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 18:42:58 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	*monitor_func(t_philo *philo)
 		while (i < current->table->num_philos)
 		{
 			current = &philo[i];
-			// printf("What in the name of fuck |%d|\n", current->philosopher);
 			pthread_mutex_lock(current->table->lock_death);
 			if (check_death(current))
 			{
@@ -88,7 +87,7 @@ void	*thread_func(void *arg)
 	if (philo->table->num_philos == 1)
 		return (NULL);
 	if (philo->philosopher % 2)
-		usleep(300);
+		usleep(200);
 	while (1)
 	{
 		if (philo->state == THINKING)

@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 13:18:31 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 18:25:26 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	return(philosophers);
 }
 
+int		parse_input(char *input)
+{
+	int	i;
+	
+	i = 0;
+	while(input[i])
+	{
+		if (!ft_isdigit(input[i]))
+			return (0);
+		i++;
+	}
+	i = ft_atoi(input);
+	if (i <= 0)
+		return (0);
+	return (i);
+}
+
 t_philo	*process_args(int argc, char *argv[], t_table **table)
 {
 	t_philo *philos;
@@ -45,14 +62,14 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	*/
 	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
 	(*table)->lock_death = malloc(sizeof(pthread_mutex_t));
-	(*table)->num_philos = ft_atoi(argv[1]);
-	(*table)->to_die = ft_atoi(argv[2]);
-	(*table)->to_eat = ft_atoi(argv[3]);
-	(*table)->to_sleep = ft_atoi(argv[4]);
+	(*table)->num_philos = parse_input(argv[1]);
+	(*table)->to_die = parse_input(argv[2]);
+	(*table)->to_eat = parse_input(argv[3]);
+	(*table)->to_sleep = parse_input(argv[4]);
 	(*table)->dinner_over = false;
 	(*table)->sum1dead = false;
 	if (argc == 6)
-		(*table)->rounds = ft_atoi(argv[5]);
+		(*table)->rounds = parse_input(argv[5]);
 	else
 		(*table)->rounds = -1;
 	philos = init_philos(table, (*table)->num_philos);
@@ -109,6 +126,11 @@ int	main(int argc, char *argv[])
 	if (argc == 5 || argc == 6)
 	{
 		philo = process_args(argc, argv, &table);
+		if (philo == NULL)
+		{
+			printf("Plato says your input's fucked\n");
+			return (1);
+		}
 		init_threads(&philo, &table);
 	}
 	else

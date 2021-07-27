@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/08 12:43:29 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 11:46:04 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 18:36:50 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	eat_loop(t_philo *philo)
 	grab_fork(&philo->table->ch_stick[right], philo);
 	print_action(philo, EATING);
 	precision_sleep(philo->table->to_eat, philo);
+	// usleep(philo->table->to_eat * 1000);
 	philo->state = EATING;
 	drop_fork(&philo->table->ch_stick[right], philo);
 	drop_fork(&philo->table->ch_stick[left], philo);
@@ -46,6 +47,7 @@ void	sleep_or_think(t_philo *philo)
 	{
 		print_action(philo, SLEEPING);
 		precision_sleep(philo->table->to_sleep, philo);
+		// usleep(philo->table->to_sleep * 1000);
 		philo->state = SLEEPING;
 	}
 	if (philo->state == SLEEPING)

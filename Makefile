@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/07/27 13:20:28 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/27 18:43:39 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ INCLUDES = -Iincludes
 UTILS = utils/ft_putstr_fd.o \
 		utils/ft_strlen.o \
 		utils/ft_atoi.o \
-		utils/ft_bzero.o
+		utils/ft_bzero.o \
+		utils/ft_isdigit.o
 
 OBJ = main.o \
 		threads.o \
@@ -31,10 +32,10 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME) -fsanitize=thread -g
+	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
 
 %.o: %.c
-	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ -fsanitize=thread -g
+	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

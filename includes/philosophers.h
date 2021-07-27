@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 13:23:42 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 18:24:46 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ size_t		ft_strlen(const char *s);
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
 long long	get_timestamp(t_philo *philo);
+int			ft_isdigit(int arg);
 
 void		*thread_func(void *);
 void		eat_loop(t_philo *philo);
