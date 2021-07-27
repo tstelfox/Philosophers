@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/07/27 20:07:20 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/27 22:06:37 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ OBJ = main.o \
 		print_action.o \
 		time_func.o \
 		free_all.o \
+		initialise.o \
 		$(UTILS)
 
 FLAGS = -Wall -Wextra -Werror
@@ -33,10 +34,14 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME) 
+
+##-fsanitize=address -g
 
 %.o: %.c
-	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ 
+
+##-fsanitize=address -g
 
 clean:
 	rm -f $(OBJ)

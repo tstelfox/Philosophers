@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/27 20:03:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 20:08:59 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 21:13:44 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_all(t_philo *philo, t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < table->num_philos)

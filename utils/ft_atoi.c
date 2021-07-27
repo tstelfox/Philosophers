@@ -6,15 +6,15 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/02 13:15:07 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/06/07 13:43:17 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 21:06:30 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int		ft_conv(const char *str, int i, int sign)
+int	ft_conv(const char *str, int i, int sign)
 {
-	long int res;
+	long int	res;
 
 	res = 0;
 	while (str[i] != '\0')
@@ -33,7 +33,7 @@ int		ft_conv(const char *str, int i, int sign)
 	return ((int)(res * sign));
 }
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int			i;
 	long int	res;

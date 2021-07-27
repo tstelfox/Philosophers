@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/13 15:11:14 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/26 19:36:27 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 21:08:33 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 
 long long	get_timestamp(t_philo *philo)
 {
-	struct timeval c_time;
-	struct timeval s_time;
-	
-	long long	timestamp;
+	struct timeval	c_time;
+	struct timeval	s_time;
+	long long		timestamp;
 
 	gettimeofday(&c_time, NULL);
 	s_time = philo->table->start_time;
-	timestamp = (c_time.tv_sec - s_time.tv_sec) * 1000 
+	timestamp = (c_time.tv_sec - s_time.tv_sec) * 1000
 		+ (c_time.tv_usec - s_time.tv_usec) / 1000;
-	return(timestamp);
+	return (timestamp);
 }
 
 bool	check_death(t_philo *philo)
 {
-	long long	difference;
+	long long		difference;
 	struct timeval	now;
 
 	gettimeofday(&now, NULL);
-	difference = (now.tv_sec - philo->last_ate.tv_sec) * 1000 
+	difference = (now.tv_sec - philo->last_ate.tv_sec) * 1000
 		+ (now.tv_usec - philo->last_ate.tv_usec) / 1000;
 	if (difference >= philo->table->to_die)
 		return (1);
@@ -42,14 +41,14 @@ bool	check_death(t_philo *philo)
 
 long long	get_diff(struct timeval now, t_philo *philo)
 {
-	long long difference;
+	long long	difference;
 
-	difference = (now.tv_sec - philo->table->start_time.tv_sec) * 
-		1000 + (now.tv_usec - philo->table->start_time.tv_usec) / 1000;
+	difference = (now.tv_sec - philo->table->start_time.tv_sec)
+		* 1000 + (now.tv_usec - philo->table->start_time.tv_usec) / 1000;
 	return (difference);
 }
 
-long int		get_usec(struct timeval start)
+long int	get_usec(struct timeval start)
 {
 	struct timeval	current;
 	long int		usec;
@@ -62,11 +61,11 @@ long int		get_usec(struct timeval start)
 
 void	precision_sleep(int duration, t_philo *philo)
 {
-	struct	timeval	start;
+	struct timeval	start;
 
 	(void)philo;
 	gettimeofday(&start, NULL);
-	while (get_usec(start) < duration * 1000) // && !any1dead
+	while (get_usec(start) < duration * 1000)
 	{
 		usleep(100);
 	}
