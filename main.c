@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 18:25:26 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 20:09:48 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		philosophers[i].lock_eat = malloc(sizeof(pthread_mutex_t));
 		philosophers[i].state = THINKING;
 		philosophers[i].philosopher = i + 1;
-		// philosophers[i].left = false;
-		// philosophers[i].right = false;
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
 		philosophers[i].last_ate = now;
@@ -57,9 +55,6 @@ int		parse_input(char *input)
 t_philo	*process_args(int argc, char *argv[], t_table **table)
 {
 	t_philo *philos;
-	/*
-		Do the classic argument parsing.
-	*/
 	(*table)->lock_action = malloc(sizeof(pthread_mutex_t));
 	(*table)->lock_death = malloc(sizeof(pthread_mutex_t));
 	(*table)->num_philos = parse_input(argv[1]);
@@ -72,6 +67,9 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 		(*table)->rounds = parse_input(argv[5]);
 	else
 		(*table)->rounds = -1;
+	if (!(*table)->num_philos || !(*table)->to_die || !(*table)->to_eat || 
+		!(*table)->to_sleep || !(*table)->rounds)
+		return (NULL);
 	philos = init_philos(table, (*table)->num_philos);
 	return (philos);
 }
@@ -111,6 +109,8 @@ void	init_threads(t_philo **philo, t_table **table)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
+		pthread_mutex_destroy(structure[i].lock_eat);
+		pthread_mutex_destroy(structure[i].lock_print);
 		i++;
 	}
 	pthread_mutex_destroy((*table)->lock_action);
@@ -122,18 +122,22 @@ int	main(int argc, char *argv[])
 	t_table	*table;
 	t_philo *philo;
 
-	table = malloc(sizeof(t_table));
+	table = NULL;
 	if (argc == 5 || argc == 6)
 	{
+		table = malloc(sizeof(t_table));
 		philo = process_args(argc, argv, &table);
 		if (philo == NULL)
 		{
 			printf("Plato says your input's fucked\n");
+			free(table);
 			return (1);
 		}
 		init_threads(&philo, &table);
+		free_all(philo, table);
 	}
 	else
 		ft_putstr_fd("Wrong no. of args\n", 1);
+	system("leaks philo");
 	return (0);
 }

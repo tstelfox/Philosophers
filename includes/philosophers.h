@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 18:24:46 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 20:07:01 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void		*monitor_func(t_philo *philo);
 bool		any1dead(t_table *table);
 void		precision_sleep(int duration, t_philo *philo);
 long long	get_diff(struct timeval now, t_philo *philo);
+void		free_all(t_philo *philo, t_table *table);
 #endif

@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/07/27 18:43:39 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/27 20:07:20 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ OBJ = main.o \
 		eat_loop.o \
 		print_action.o \
 		time_func.o \
+		free_all.o \
 		$(UTILS)
 
 FLAGS = -Wall -Wextra -Werror
