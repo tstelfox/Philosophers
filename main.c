@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/20 16:47:10 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 11:11:16 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	init_threads(t_philo **philo, t_table **table)
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
-	pthread_t	monitor[(*table)->num_philos];
+	// pthread_t	monitor;
 
 	structure = *philo;
 
@@ -85,17 +85,18 @@ void	init_threads(t_philo **philo, t_table **table)
 		i++;
 	}
 	i = 0;
+	// pthread_create(&monitor, NULL, &monitor_func, (void *)&structure);
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
-		pthread_create(&monitor[i], NULL, &monitor_func, (void *)&structure[i]);
 		i++;
 	}
+	monitor_func(*philo);
 	i = 0;
+	// pthread_join(monitor, NULL);
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);
-		pthread_join(monitor[i], NULL);
 		pthread_mutex_destroy(&(*table)->ch_stick[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/26 19:33:41 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 11:18:21 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,39 @@
 
 bool	any1dead(t_table *table)
 {
-	// int dead = 0;
-	// pthread_mutex_lock(table->lock_death);
-	// dead = table->sum1dead;
-	// pthread_mutex_unlock(table->lock_death);
 	return(table->sum1dead);
 }
 
-void	*monitor_func(void *arg)
+void	*monitor_func(t_philo *philo)
 {
-	t_philo	*philo = arg;
+	int i;
+	t_philo *current;
+
+	current = philo;
+	i = 0;
 	while (1)
 	{
-		pthread_mutex_lock(philo->table->lock_death);
-		if (check_death(philo))
+		i = 0;
+		usleep(200);
+		while (i < current->table->num_philos)
 		{
-			print_action(philo, DIED);
-			pthread_mutex_unlock(philo->table->lock_death);
-			return (NULL);
+			current = &philo[i];
+			// printf("What in the name of fuck |%d|\n", current->philosopher);
+			pthread_mutex_lock(current->table->lock_death);
+			if (check_death(current))
+			{
+				print_action(current, DIED);
+				pthread_mutex_unlock(current->table->lock_death);
+				return (NULL);
+			}
+			else if (any1dead(current->table))
+			{
+				pthread_mutex_unlock(current->table->lock_death);
+				return (NULL);
+			}
+			pthread_mutex_unlock(current->table->lock_death);
+			i++;
 		}
-		else if (any1dead(philo->table))
-		{
-			pthread_mutex_unlock(philo->table->lock_death);
-			return (NULL);
-		}
-		pthread_mutex_unlock(philo->table->lock_death);
 	}
 	return(NULL);
 }
@@ -50,7 +58,7 @@ void	*thread_func(void *arg)
 	if (philo->table->num_philos == 1)
 		return (NULL);
 	if (philo->philosopher % 2)
-		usleep(100);
+		usleep(300);
 	while (1)
 	{
 		if (philo->state == THINKING)
