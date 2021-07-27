@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 11:11:16 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 13:18:31 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 	while (i < num_philos)
 	{
 		philosophers[i].lock_print = malloc(sizeof(pthread_mutex_t));
+		philosophers[i].lock_eat = malloc(sizeof(pthread_mutex_t));
 		philosophers[i].state = THINKING;
 		philosophers[i].philosopher = i + 1;
 		// philosophers[i].left = false;
@@ -48,15 +49,12 @@ t_philo	*process_args(int argc, char *argv[], t_table **table)
 	(*table)->to_die = ft_atoi(argv[2]);
 	(*table)->to_eat = ft_atoi(argv[3]);
 	(*table)->to_sleep = ft_atoi(argv[4]);
-	// printf("Time to sleep is |%d|\n", (*table)->to_sleep);
-	// printf("Time to eat is |%d|\n", (*table)->to_eat);
 	(*table)->dinner_over = false;
 	(*table)->sum1dead = false;
-	(*table)->other_cs = false;
 	if (argc == 6)
 		(*table)->rounds = ft_atoi(argv[5]);
 	else
-		(*table)->rounds = 0;
+		(*table)->rounds = -1;
 	philos = init_philos(table, (*table)->num_philos);
 	return (philos);
 }
@@ -69,7 +67,6 @@ void	init_threads(t_philo **philo, t_table **table)
 	int	err;
 	pthread_t	phil_thread[(*table)->num_philos];
 	pthread_mutex_t	stick_temp[(*table)->num_philos];
-	// pthread_t	monitor;
 
 	structure = *philo;
 
@@ -81,11 +78,11 @@ void	init_threads(t_philo **philo, t_table **table)
 	while (i < (*table)->num_philos)
 	{
 		pthread_mutex_init(structure[i].lock_print, NULL);
+		pthread_mutex_init(structure[i].lock_eat, NULL);
 		pthread_mutex_init(&(*table)->ch_stick[i], NULL);
 		i++;
 	}
 	i = 0;
-	// pthread_create(&monitor, NULL, &monitor_func, (void *)&structure);
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_create(&(phil_thread[i]), NULL, &thread_func, (void *)&structure[i]);
@@ -93,7 +90,6 @@ void	init_threads(t_philo **philo, t_table **table)
 	}
 	monitor_func(*philo);
 	i = 0;
-	// pthread_join(monitor, NULL);
 	while (i < (*table)->num_philos)
 	{
 		err = pthread_join(phil_thread[i], (void **)&result);

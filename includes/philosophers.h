@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 11:09:32 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 13:23:42 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ enum	states
 	SLEEPING = 2,
 	DIED = 3,
 	GRAB = 4,
-	DROP = 5
+	DROP = 5,
+	FULL = 6
 };
 
 typedef	struct	s_table
@@ -42,14 +43,14 @@ typedef	struct	s_table
 	struct timeval	start_time;
 	bool	dinner_over;
 	bool	sum1dead;
-	bool	other_cs;
-	unsigned int	rounds;
+	int	rounds;
 	/* data */
 }				t_table;
 
 typedef	struct	s_philo
 {
 	pthread_mutex_t *lock_print;
+	pthread_mutex_t	*lock_eat;
 	int	state;
 	int	philosopher;
 	bool	left;

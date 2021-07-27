@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/26 19:37:57 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/27 13:26:36 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 void	do_action(t_philo *philo, int action)
 {
 	long long	timestamp;
-	// pthread_mutex_lock(philo->lock_print);
 	if (action == EATING)
 	{
 		timestamp = get_timestamp(philo);
 		gettimeofday(&philo->last_ate, NULL);
+		pthread_mutex_lock(philo->lock_eat);
+		philo->meals_num++;
+		pthread_mutex_unlock(philo->lock_eat);
 		printf("|%lld| Philosopher |%d| is eating\n", timestamp, philo->philosopher);
 	}
 	else if (action == SLEEPING)
@@ -42,7 +44,6 @@ void	do_action(t_philo *philo, int action)
 		printf("|%lld| Philosopher |%d| drops a chopstick\n", get_timestamp(philo), 
 			philo->philosopher);
 	}
-	// pthread_mutex_unlock(philo->lock_print);
 }
 
 void	print_action(t_philo *philo, int action)
@@ -57,9 +58,12 @@ void	print_action(t_philo *philo, int action)
 	{
 		timestamp = get_timestamp(philo);
 		printf("|%lld| Philosopher |%d| be ded\n", timestamp, philo->philosopher);
-		// pthread_mutex_lock(philo->table->lock_death);
 		philo->table->sum1dead = true;
-		// pthread_mutex_unlock(philo->table->lock_death);
+	}
+	if (action == FULL)
+	{
+		printf("Everybody has eaten their fill\n");
+		philo->table->dinner_over = true;
 	}
 	else if (!any1dead(philo->table))
 		do_action(philo, action);
