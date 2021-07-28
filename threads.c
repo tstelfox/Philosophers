@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 21:33:57 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/28 15:38:47 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ bool	any1dead(t_table *table)
 
 bool	check_full(t_philo *philo)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < philo->table->num_philos)
 	{
-		pthread_mutex_lock(philo->lock_eat);
-		if (philo->meals_num != philo->table->rounds)
+		pthread_mutex_lock(philo[i].lock_eat);
+		if (philo[i].meals_num != philo->table->rounds)
 		{
-			pthread_mutex_unlock(philo->lock_eat);
+			pthread_mutex_unlock(philo[i].lock_eat);
 			break ;
 		}
-		pthread_mutex_unlock(philo->lock_eat);
+		pthread_mutex_unlock(philo[i].lock_eat);
 		i++;
 		if (i == philo->table->num_philos)
 			return (true);
@@ -38,15 +38,18 @@ bool	check_full(t_philo *philo)
 	return (false);
 }
 
-bool	we_done(t_philo *current)
+bool	we_done(t_philo *philo, int i)
 {
+	t_philo	*current;
+
+	current = &philo[i];
 	if (check_death(current))
 	{
 		print_action(current, DIED);
 		pthread_mutex_unlock(current->table->lock_death);
 		return (true);
 	}
-	if (check_full(current))
+	if (check_full(philo))
 	{
 		print_action(current, FULL);
 		pthread_mutex_unlock(current->table->lock_death);
@@ -67,7 +70,7 @@ void	*monitor_func(t_philo *philo)
 		usleep(100);
 		current = &philo[i];
 		pthread_mutex_lock(current->table->lock_death);
-		if (we_done(current))
+		if (we_done(philo, i))
 			return (NULL);
 		else if (any1dead(current->table))
 		{

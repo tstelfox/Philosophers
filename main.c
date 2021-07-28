@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 22:07:25 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/28 15:57:00 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 {
 	int	i;
 	int	err;
+	int	fail1;
+	int	fail2;
+	int	fail3;
 
 	i = 0;
 	while (i < (*table).num_philos)
 	{
-		pthread_mutex_init(philo[i].lock_print, NULL);
-		pthread_mutex_init(philo[i].lock_eat, NULL);
-		pthread_mutex_init(&(*table).ch_stick[i], NULL);
+		fail1 = pthread_mutex_init(philo[i].lock_print, NULL);
+		fail2 = pthread_mutex_init(philo[i].lock_eat, NULL);
+		fail3 = pthread_mutex_init(&(*table).ch_stick[i], NULL);
+		if (fail1 || fail2 | fail3)
+			return ;
 		i++;
 	}
 	i = 0;
@@ -64,8 +69,9 @@ int	init_threads(t_philo **philo, t_table **table)
 	if (!phil_thread || !stick_temp)
 		return (0);
 	structure = *philo;
-	pthread_mutex_init((*table)->lock_action, NULL);
-	pthread_mutex_init((*table)->lock_death, NULL);
+	if (pthread_mutex_init((*table)->lock_action, NULL)
+		|| pthread_mutex_init((*table)->lock_death, NULL))
+		return (0);
 	(*table)->ch_stick = stick_temp;
 	gettimeofday(&(*table)->start_time, NULL);
 	threads_start(phil_thread, structure, *table);
@@ -84,6 +90,8 @@ int	main(int argc, char *argv[])
 	if (argc == 5 || argc == 6)
 	{
 		table = malloc(sizeof(t_table));
+		if (!table)
+			return (1);
 		philo = process_args(argc, argv, &table);
 		if (philo == NULL)
 		{
