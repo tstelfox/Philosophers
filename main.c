@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/28 15:57:00 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/28 16:01:28 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 {
 	int	i;
-	int	err;
 	int	fail1;
 	int	fail2;
 	int	fail3;
@@ -33,8 +32,9 @@ void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 	i = 0;
 	while (i < (*table).num_philos)
 	{
-		err = pthread_create(&(phil_thread[i]), NULL, &thread_func,
-				(void *)&philo[i]);
+		if (pthread_create(&(phil_thread[i]), NULL, &thread_func,
+				(void *)&philo[i]))
+			return ;
 		i++;
 	}
 	monitor_func(philo);
@@ -43,12 +43,11 @@ void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 void	threads_end(pthread_t *phil_thread, t_philo *philo, t_table *table)
 {
 	int	i;
-	int	err;
 
 	i = 0;
 	while (i < (*table).num_philos)
 	{
-		err = pthread_join(phil_thread[i], NULL);
+		pthread_join(phil_thread[i], NULL);
 		pthread_mutex_destroy(&(*table).ch_stick[i]);
 		pthread_mutex_destroy(philo[i].lock_eat);
 		pthread_mutex_destroy(philo[i].lock_print);
