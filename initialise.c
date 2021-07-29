@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/27 22:05:34 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/28 15:40:28 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/29 16:09:24 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_philo	*init_philos(t_table **table, int num_philos)
 		philosophers[i].meals_num = 0;
 		philosophers[i].table = *table;
 		philosophers[i].last_ate = now;
+		philosophers[i].full = false;
 		i++;
 	}
 	return (philosophers);

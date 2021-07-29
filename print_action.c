@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/09 15:20:44 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/27 21:11:41 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/29 16:35:12 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ void	do_action(t_philo *philo, int action)
 	{
 		gettimeofday(&philo->last_ate, NULL);
 		pthread_mutex_lock(philo->lock_eat);
-		philo->meals_num++;
+		if (!philo->full)
+		{
+			philo->meals_num++;
+			printf("|%lld| Philosopher |%d| is eating\n", get_timestamp(philo),
+				philo->philosopher);
+		}
 		pthread_mutex_unlock(philo->lock_eat);
-		printf("|%lld| Philosopher |%d| is eating\n", get_timestamp(philo),
-			philo->philosopher);
 	}
 	else if (action == SLEEPING)
 	{

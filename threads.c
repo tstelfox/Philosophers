@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/29 14:14:57 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/29 16:34:17 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,23 @@ bool	check_full(t_philo *philo)
 	while (i < philo->table->num_philos)
 	{
 		pthread_mutex_lock(philo[i].lock_eat);
-		if (philo[i].meals_num != philo->table->rounds)
+		if ((philo[i].meals_num != philo->table->rounds) && !philo[i].full)
 		{
 			pthread_mutex_unlock(philo[i].lock_eat);
 			break ;
 		}
+		philo[i].full = true;
 		pthread_mutex_unlock(philo[i].lock_eat);
 		i++;
-		if (i == philo->table->num_philos)
-			return (true);
 	}
-	return (false);
+	i = 0;
+	while (i < philo->table->num_philos)
+	{
+		if (!philo[i].full)
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 bool	we_done(t_philo *philo, int i)

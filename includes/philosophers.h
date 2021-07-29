@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:14:57 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/28 15:40:42 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/29 16:05:44 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_philo
 	int				meals_num;
 	struct s_table	*table;
 	struct timeval	last_ate;
+	bool			full;
 }				t_philo;
 
 // Utils
