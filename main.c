@@ -6,13 +6,25 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/27 13:03:20 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/28 16:01:28 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/29 11:53:12 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
+int	destroy_mutex(t_philo *philo, int i, t_table *table)
+{
+	while (i >= 0)
+	{
+		pthread_mutex_destroy(&(*table).ch_stick[i]);
+		pthread_mutex_destroy(philo[i].lock_eat);
+		pthread_mutex_destroy(philo[i].lock_print);
+		i--;
+	}
+	return (0);
+}
+
+int	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 {
 	int	i;
 	int	fail1;
@@ -25,8 +37,8 @@ void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 		fail1 = pthread_mutex_init(philo[i].lock_print, NULL);
 		fail2 = pthread_mutex_init(philo[i].lock_eat, NULL);
 		fail3 = pthread_mutex_init(&(*table).ch_stick[i], NULL);
-		if (fail1 || fail2 | fail3)
-			return ;
+		if (fail1 || fail2 || fail3)
+			return (destroy_mutex(philo, i, table));
 		i++;
 	}
 	i = 0;
@@ -34,10 +46,10 @@ void	threads_start(pthread_t *phil_thread, t_philo *philo, t_table *table)
 	{
 		if (pthread_create(&(phil_thread[i]), NULL, &thread_func,
 				(void *)&philo[i]))
-			return ;
+			return (0);
 		i++;
 	}
-	monitor_func(philo);
+	return (1);
 }
 
 void	threads_end(pthread_t *phil_thread, t_philo *philo, t_table *table)
@@ -73,7 +85,9 @@ int	init_threads(t_philo **philo, t_table **table)
 		return (0);
 	(*table)->ch_stick = stick_temp;
 	gettimeofday(&(*table)->start_time, NULL);
-	threads_start(phil_thread, structure, *table);
+	if (!threads_start(phil_thread, structure, *table))
+		return (0);
+	monitor_func(*philo);
 	threads_end(phil_thread, structure, *table);
 	free(phil_thread);
 	free(stick_temp);
@@ -98,7 +112,8 @@ int	main(int argc, char *argv[])
 			free(table);
 			return (1);
 		}
-		init_threads(&philo, &table);
+		if (!init_threads(&philo, &table))
+			printf("Something really fucked up\n");
 		free_all(philo, table);
 	}
 	else
