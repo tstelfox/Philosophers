@@ -6,7 +6,7 @@
 #    By: tmullan <tmullan@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/27 13:10:33 by tmullan       #+#    #+#                  #
-#    Updated: 2021/07/29 16:17:08 by tmullan       ########   odam.nl          #
+#    Updated: 2021/07/30 17:09:43 by tmullan       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) $(INCLUDES) -pthread -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(FLAGS) $(INCLUDES) -pthread -c $< -o $@ 

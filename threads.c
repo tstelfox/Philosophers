@@ -6,7 +6,7 @@
 /*   By: tmullan <tmullan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/01 16:57:26 by tmullan       #+#    #+#                 */
-/*   Updated: 2021/07/29 16:34:17 by tmullan       ########   odam.nl         */
+/*   Updated: 2021/07/31 18:29:29 by tmullan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,10 @@ bool	check_full(t_philo *philo)
 		philo[i].full = true;
 		pthread_mutex_unlock(philo[i].lock_eat);
 		i++;
+		if (i == philo->table->num_philos)
+			return (true);
 	}
-	i = 0;
-	while (i < philo->table->num_philos)
-	{
-		if (!philo[i].full)
-			return (false);
-		i++;
-	}
-	return (true);
+	return (false);
 }
 
 bool	we_done(t_philo *philo, int i)
@@ -55,11 +50,14 @@ bool	we_done(t_philo *philo, int i)
 		pthread_mutex_unlock(current->table->lock_death);
 		return (true);
 	}
-	if (check_full(philo))
+	if (philo->table->rounds != -1)
 	{
-		print_action(current, FULL);
-		pthread_mutex_unlock(current->table->lock_death);
-		return (true);
+		if (check_full(philo))
+		{
+			print_action(current, FULL);
+			pthread_mutex_unlock(current->table->lock_death);
+			return (true);
+		}
 	}
 	return (false);
 }
@@ -99,7 +97,7 @@ void	*thread_func(void *arg)
 	if (philo->table->num_philos == 1)
 		return (NULL);
 	if (philo->philosopher % 2)
-		usleep(200);
+		usleep(300);
 	while (1)
 	{
 		if (philo->state == THINKING)
